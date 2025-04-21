@@ -8,26 +8,22 @@
 import SwiftUI
 
 struct StatsView: View {
-    let pokemon: Pokemon
     
-    // Valores fictícios para demonstração
-    var stats: [Stat] {
-        [
-            Stat(name: "HP", value: Int.random(in: 30...100)),
-            Stat(name: "Attack", value: Int.random(in: 30...100)),
-            Stat(name: "Defense", value: Int.random(in: 30...100)),
-            Stat(name: "Sp. Atk", value: Int.random(in: 30...100)),
-            Stat(name: "Sp. Def", value: Int.random(in: 30...100)),
-            Stat(name: "Speed", value: Int.random(in: 30...100))
-        ]
-    }
+    let pokemon: Pokemon
+    @StateObject private var viewModel: StatsViewModel
+    
+    init(pokemon: Pokemon) {
+            self.pokemon = pokemon
+            _viewModel = StateObject(wrappedValue: StatsViewModel(pokemon: pokemon))
+        }
+    
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Stats")
                 .font(.title2.bold())
             
-            ForEach(stats) { stat in
+            ForEach(viewModel.stats) { stat in
                 HStack {
                     Text(stat.name)
                         .frame(width: 80, alignment: .leading)

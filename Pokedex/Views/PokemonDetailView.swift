@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct PokemonDetailView: View {
-    let pokemon: Pokemon
+    @StateObject private var pokemonDetailViewModel: PokemonDetailViewModel
+    
+    init(pokemon: Pokemon) {
+        _pokemonDetailViewModel =  StateObject(wrappedValue: PokemonDetailViewModel(pokemon: pokemon))
+    }
 
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
                 // Imagem do Pokémon
-                if let image = UIImage(named: pokemon.imageName) {
+                if let image = UIImage(named: pokemonDetailViewModel.imageName) {
                     // Imagem encontrada nos assets
                     Image(uiImage: image)
                         .resizable()
@@ -30,29 +34,29 @@ struct PokemonDetailView: View {
 
                 // Nome e número
                 VStack {
-                    Text(pokemon.capitalizedName)
+                    Text(pokemonDetailViewModel.capitalizedName)
                         .font(.largeTitle.bold())
 
-                    Text("#\(String(format: "%03d", pokemon.id))")
+                    Text(pokemonDetailViewModel.formattedId)
                         .font(.title3)
                         .foregroundColor(.secondary)
                 }
 
                 // Tipos
                 HStack(spacing: 16) {
-                    ForEach(pokemon.types, id: \.self) { type in
+                    ForEach(pokemonDetailViewModel.types, id: \.self) { type in
                         TypeIconView(type: type, large: true)
                     }
                 }
 
                 // Stats (simplificado)
-                StatsView(pokemon: pokemon)
+                StatsView(pokemon: pokemonDetailViewModel.pokemon)
 
                 Spacer()
             }
             .padding()
         }
-        .navigationTitle(pokemon.capitalizedName)
+        .navigationTitle(pokemonDetailViewModel.capitalizedName)
         .navigationBarTitleDisplayMode(.inline)
     }
 }

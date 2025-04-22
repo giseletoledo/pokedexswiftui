@@ -7,9 +7,15 @@
 
 import SwiftUI
 
-
 struct PokedexView: View {
-    @StateObject private var viewModel = PokedexViewModel()
+    
+    let pokemons: [Pokemon]
+    @StateObject private var viewModel: PokedexViewModel
+    
+    init(pokemons: [Pokemon]) {
+        self.pokemons = pokemons
+        self._viewModel = StateObject(wrappedValue: PokedexViewModel(pokemons: pokemons))
+    }
 
     var body: some View {
         VStack {

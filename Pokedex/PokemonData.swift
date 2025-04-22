@@ -160,3 +160,7 @@ let pokemons: [Pokemon] = [
     Pokemon(id: 150, name: "mewtwo", types: [.psychic]),
     Pokemon(id: 151, name: "mew", types: [.psychic])
 ]
+
+func loadPokemons() -> [Pokemon] {
+    return pokemons 
+}

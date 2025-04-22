@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    private let allPokemons = loadPokemons()
+    
     var body: some View {
         TabView {
             NavigationStack {
-                PokedexView()
+                PokedexView(pokemons: allPokemons)
                     .navigationTitle("Pokédex")
             }
             .tabItem {
